@@ -105,6 +105,7 @@
 		<item name="Search" sub="Search"/>
 		<item type="separator"/>
 		<item name="Edit" action="EditAll()"/>
+		<item name="Set status" sub="EditStatus"/>
 		<item name="&Delete from list...&#9;Del" action="EditDelete()"/>
 		<item type="separator"/>
 		<item name="Open folder" action="OpenFolder()"/>

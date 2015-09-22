@@ -402,13 +402,14 @@ void ExecuteAction(std::wstring action, WPARAM wParam, LPARAM lParam) {
   //   Value must be 1, 2, 3, 4 or 5, and different from current status.
   //   lParam is a pointer to a vector of anime IDs.
   } else if (action == L"EditStatus") {
-    const auto& anime_ids = *reinterpret_cast<std::vector<int>*>(lParam);
-    for (const auto& anime_id : anime_ids) {
+	  int anime_id = static_cast<int>(lParam);
+
       HistoryItem history_item;
       history_item.status = ToInt(body);
       auto anime_item = AnimeDatabase.FindItem(anime_id);
-      if (!anime_item)
-        continue;
+	  if (!anime_item || !anime_item->IsInList())
+		  return;
+
       switch (*history_item.status) {
         case anime::kCompleted:
           history_item.episode = anime_item->GetEpisodeCount();
@@ -424,7 +425,6 @@ void ExecuteAction(std::wstring action, WPARAM wParam, LPARAM lParam) {
       history_item.anime_id = anime_id;
       history_item.mode = taiga::kHttpServiceUpdateLibraryEntry;
       History.queue.Add(history_item);
-    }
 
   // EditTags(tags)
   //   Changes anime tags.
