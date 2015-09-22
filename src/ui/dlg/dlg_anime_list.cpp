@@ -318,7 +318,7 @@ void AnimeListDialog::OnContextMenu(HWND hwnd, POINT pt) {
       }
       ui::Menus.UpdateAll(GetCurrentItem());
       auto action = ui::Menus.Show(DlgMain.GetWindowHandle(), pt.x, pt.y, menu_name.c_str());
-      if (action == L"EditDelete()")
+      if (action == L"EditDelete()" || action.find(L"EditStatus") != std::wstring::npos)
         parameter = reinterpret_cast<LPARAM>(&anime_ids);
       ExecuteAction(action, 0, parameter);
     }
