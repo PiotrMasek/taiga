@@ -401,6 +401,9 @@ void AnimeListDialog::ListView::ExecuteAction(AnimeListAction action,
     case kAnimeListActionInfo:
       ShowDlgAnimeInfo(anime_id);
       break;
+    case kAnimeListActionPage:
+      ::ExecuteAction(L"ViewAnimePage", 0, anime_id);
+      break;
   }
 }
 
@@ -873,6 +876,7 @@ LRESULT AnimeListDialog::OnListNotify(LPARAM lParam) {
       auto nmh = reinterpret_cast<LPNMHEADER>(lParam);
       if (nmh->pitem->iOrder == -1)
         return TRUE;
+      listview.RefreshItem(-1);
       listview.MoveColumn(nmh->iItem, nmh->pitem->iOrder);
       break;
     }
@@ -882,6 +886,7 @@ LRESULT AnimeListDialog::OnListNotify(LPARAM lParam) {
       auto column_type = listview.FindColumnAtSubItemIndex(nmh->iItem);
       if (column_type == kColumnAnimeStatus)
         return TRUE;
+      listview.RefreshItem(-1);
       break;
     }
     case HDN_ITEMCHANGED: {
